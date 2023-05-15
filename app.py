@@ -13,7 +13,7 @@ def fare_previsioni(dataset):
     return previsioni
 
 # Configurazione dell'applicazione Streamlit
-st.title("App per previsioni con modello pickle")
+st.title("Forecasting app")
 
 # Caricamento del dataset
 file = st.file_uploader("Carica il dataset", type=["csv"])
