@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 
 # Carica il modello da file pickle
-with open('modello.pkl', 'rb') as file:
+with open('model.pkl', 'rb') as file:
     modello = pickle.load(file)
 
 # Funzione per fare previsioni sul dataset caricato
