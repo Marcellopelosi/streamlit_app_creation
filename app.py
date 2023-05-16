@@ -98,6 +98,6 @@ if file is not None:
         st.subheader("Previsioni (soglia di allerta fissata a {}".format(soglia))
         for previsione in previsioni:
             if previsione > soglia:
-                st.markdown(f'<span style="color:red">{previsione}</span>', unsafe_allow_html=True)
+                st.markdown(f'<span style="color:red">{str(previsione)}</span>', unsafe_allow_html=True)
             else:
-                st.write(previsione)
+                st.markdown(f'<span style="color:black">{str(previsione)}</span>', unsafe_allow_html=True)
