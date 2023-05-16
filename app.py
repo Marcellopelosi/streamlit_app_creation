@@ -38,7 +38,8 @@ file = st.file_uploader("Carica il dataset", type=["txt"])
 
 if file is not None:
     # Leggi il file CSV in un DataFrame pandas
-    dataset = pd.read_csv(file)
+    dataset = pd.read_csv(file, sep=" ", header=None)
+    
 
     # Mostra il dataset
     st.subheader("Dataset caricato")
