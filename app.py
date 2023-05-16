@@ -34,7 +34,7 @@ def fare_previsioni(dataset):
 st.title("Forecasting app")
 
 # Caricamento del dataset
-file = st.file_uploader("Carica il dataset", type=["csv"])
+file = st.file_uploader("Carica il dataset", type=["txt"])
 
 if file is not None:
     # Leggi il file CSV in un DataFrame pandas
