@@ -76,9 +76,9 @@ if file is not None:
     
     # Visualizza grafici
     if st.button("Visualizza grafici"):
-        cnt_train = dataset[[0,1]].groupby("unit_ID").max().sort_values(by="time_in_cycles", ascending=False)
+        cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
         cnt_ind = [str(i) for i in cnt_train.index.to_list()]
-        cnt_val = list(cnt_train.time_in_cycles.values)
+        cnt_val = list(cnt_train.1.values)
 
         plt.style.use("seaborn")
         plt.figure(figsize=(12, 30))
