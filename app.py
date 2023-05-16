@@ -1,11 +1,27 @@
-import streamlit as st
+import numpy as np
+import keras.backend as K
+import os
 import pickle
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+from tensorflow import keras
 
-# Carica il modello da file pickle
-with open('model.pkl', 'rb') as file:
-    modello = pickle.load(file)
+
+
+def r2_keras(y_true, y_pred):
+    """Coefficient of Determination 
+    """
+    SS_res =  K.sum(K.square( y_true - y_pred ))
+    SS_tot = K.sum(K.square( y_true - K.mean(y_true) ) )
+    return ( 1 - SS_res/(SS_tot + K.epsilon()) )
+
+sensor_cols = ['T2', 'T24', 'T30', 'T50', 'P2', 'P15', 'P30', 'Nf', 'Nc', 'epr',
+       'Ps30', 'phi', 'NRf', 'NRc', 'BPR', 'farB', 'htBleed', 'Nf_dmd',
+       'PCNfR_dmd', 'W31', 'W32']
+sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
+sequence_cols.extend(sensor_cols)
+model_path = "/content/model_lstm.h5"
+sequence_length = 50
 
 # Carica lo scaler da file pickle
 with open('min_max_scaler.pkl', 'rb') as file:
@@ -32,8 +48,15 @@ def preprocessing(dataset):
 def fare_previsioni(dataset):
     dataset = preprocessing(dataset)
     
-    previsioni = modello.predict(dataset)
-    return previsioni
+    # We pick the last sequence for each id in the test data
+    seq_array_test_last = [dataset[dataset['unit_ID']==id][sequence_cols].values[-sequence_length:] 
+                          for id in dataset['unit_ID'].unique() if len(dataset[dataset['unit_ID']==id]) >= sequence_length]
+    seq_array_test_last = np.asarray(seq_array_test_last).astype(np.float32)
+
+    estimator = keras.models.load_model(model_path,custom_objects={'r2_keras': r2_keras})
+    y_pred_test = estimator.predict(seq_array_test_last)
+
+    return y_pred_test
 
 # Configurazione dell'applicazione Streamlit
 st.title("Forecasting app")
