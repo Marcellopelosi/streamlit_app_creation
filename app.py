@@ -6,7 +6,8 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 import keras.backend as K
 import streamlit as st
-
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 def r2_keras(y_true, y_pred):
