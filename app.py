@@ -8,6 +8,7 @@ import keras.backend as K
 import streamlit as st
 import seaborn as sns
 import matplotlib.pyplot as plt
+import base64
 
 
 def r2_keras(y_true, y_pred):
