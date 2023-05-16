@@ -107,9 +107,9 @@ if file is not None:
         st.write("Unit_id : Previsioni")
         for i, previsione in enumerate(previsioni):
             if previsione > soglia:
-                st.markdown(f'{dataset[0].unique()} : <span style="color:red">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
+                st.markdown(f'{dataset[0].unique()[i]} : <span style="color:red">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
             else:
-                st.markdown(f'{dataset[0].unique()} : <span style="color:black">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
+                st.markdown(f'{dataset[0].unique()[i]} : <span style="color:black">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
                 
          # Bottone per scaricare il dataset delle previsioni
         df_previsioni = pd.DataFrame({'Unit_ID': dataset[0].unique(), 'Previsioni': previsioni.flatten()})
