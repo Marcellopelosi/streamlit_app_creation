@@ -111,5 +111,5 @@ if file is not None:
                 st.markdown(f'{i} : <span style="color:black">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
                 
          # Bottone per scaricare il dataset delle previsioni
-        df_previsioni = pd.DataFrame({'Previsioni': previsioni})
+        df_previsioni = pd.DataFrame({'Previsioni': previsioni.flatten()})
         st.markdown(scarica_csv(df_previsioni), unsafe_allow_html=True)
