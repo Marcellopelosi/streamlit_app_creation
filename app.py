@@ -24,7 +24,7 @@ sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
 sequence_cols.extend(sensor_cols)
 model_path = "model_lstm.h5"
 sequence_length = 50
-soglia = 50
+soglia = 75
 
 # Carica lo scaler da file pickle
 with open('min_max_scaler.pkl', 'rb') as file:
@@ -61,6 +61,13 @@ def fare_previsioni(dataset):
 
     return y_pred_test
 
+# Funzione per scaricare il dataset delle previsioni come file CSV
+def scarica_csv(dataframe):
+    csv = dataframe.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="previsioni.csv">Scarica file CSV</a>'
+    return href
+
 # Configurazione dell'applicazione Streamlit
 st.title("Forecasting app")
 
@@ -96,8 +103,13 @@ if file is not None:
 
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
+        st.write("Unit_id : Previsioni")
         for i, previsione in enumerate(previsioni):
             if previsione > soglia:
                 st.markdown(f'{i} : <span style="color:red">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
             else:
                 st.markdown(f'{i} : <span style="color:black">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
+                
+         # Bottone per scaricare il dataset delle previsioni
+        df_previsioni = pd.DataFrame({'Previsioni': previsioni})
+        st.markdown(scarica_csv(df_previsioni), unsafe_allow_html=True)
