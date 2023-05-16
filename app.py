@@ -21,7 +21,7 @@ sensor_cols = ['T2', 'T24', 'T30', 'T50', 'P2', 'P15', 'P30', 'Nf', 'Nc', 'epr',
        'PCNfR_dmd', 'W31', 'W32']
 sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
 sequence_cols.extend(sensor_cols)
-model_path = "/content/model_lstm.h5"
+model_path = "model_lstm.h5"
 sequence_length = 50
 
 # Carica lo scaler da file pickle
