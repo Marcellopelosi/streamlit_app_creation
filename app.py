@@ -79,8 +79,7 @@ if file is not None:
         cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
         cnt_ind = [str(i) for i in cnt_train.index.to_list()]
         cnt_val = list(cnt_train[1].values)
-
-        plt.style.use("seaborn")
+        
         plt.figure(figsize=(12, 30))
         sns.barplot(x=list(cnt_val), y=list(cnt_ind), palette='Spectral') #controllare casting
         plt.xlabel('Numbero di cicli')
