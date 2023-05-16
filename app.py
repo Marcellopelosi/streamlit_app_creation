@@ -6,6 +6,10 @@ from sklearn.preprocessing import MinMaxScaler
 # Carica il modello da file pickle
 with open('model.pkl', 'rb') as file:
     modello = pickle.load(file)
+
+# Carica lo scaler da file pickle
+with open('min_max_scaler.pkl', 'rb') as file:
+    min_max_scaler = pickle.load(file)    
     
 def preprocessing(dataset):
     dataset = dataset.drop(columns=[26,27], axis=1)
@@ -15,7 +19,6 @@ def preprocessing(dataset):
     #normalizzazione
     dataset['cycle_norm'] = dataset['time_in_cycles']
     cols_normalize_2 = dataset.columns.difference(['unit_ID','time_in_cycles','RUL'])
-    min_max_scaler = MinMaxScaler()
     norm_test_df = pd.DataFrame(min_max_scaler.transform(dataset[cols_normalize_2]), 
                             columns=cols_normalize_2, 
                             index=dataset.index)
