@@ -73,6 +73,21 @@ if file is not None:
     # Mostra il dataset
     st.subheader("Dataset caricato")
     st.write(dataset)
+    
+    # Visualizza grafici
+    if st.button("Visualizza grafici"):
+        cnt_train = dataset[["unit_ID", "time_in_cycles"]].groupby("unit_ID").max().sort_values(by="time_in_cycles", ascending=False)
+        cnt_ind = [str(i) for i in cnt_train.index.to_list()]
+        cnt_val = list(cnt_train.time_in_cycles.values)
+
+        plt.style.use("seaborn")
+        plt.figure(figsize=(12, 30))
+        sns.barplot(x=list(cnt_val), y=list(cnt_ind), palette='Spectral') #controllare casting
+        plt.xlabel('Numbero di cicli')
+        plt.ylabel('Id unità')
+        plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
+        st.pyplot(plt)
+    
 
     # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
