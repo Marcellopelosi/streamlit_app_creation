@@ -24,6 +24,7 @@ sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
 sequence_cols.extend(sensor_cols)
 model_path = "model_lstm.h5"
 sequence_length = 50
+soglia = 30
 
 # Carica lo scaler da file pickle
 with open('min_max_scaler.pkl', 'rb') as file:
@@ -61,7 +62,7 @@ def fare_previsioni(dataset):
     return y_pred_test
 
 # Configurazione dell'applicazione Streamlit
-#st.title("Forecasting app")
+st.title("Forecasting app")
 
 # Caricamento del dataset
 file = st.file_uploader("Carica il dataset", type=["txt"])
@@ -89,10 +90,14 @@ if file is not None:
         st.pyplot(plt)
     
 
-    # Esegui previsioni sul dataset caricato
+# Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset)
 
         # Mostra le previsioni
-        st.subheader("Previsioni")
-        st.write(previsioni)
+        st.subheader("Previsioni (soglia di allerta fissata a {}".format(soglia))
+        for previsione in previsioni:
+            if previsione > soglia:
+                st.markdown(f'<span style="color:red">{previsione}</span>', unsafe_allow_html=True)
+            else:
+                st.write(previsione)
