@@ -1,7 +1,7 @@
 import streamlit as st
 import pickle
 import pandas as pd
-from sklearn import preprocessing
+from sklearn.preprocessing import MinMaxScaler
 
 # Carica il modello da file pickle
 with open('model.pkl', 'rb') as file:
@@ -15,7 +15,7 @@ def preprocessing(dataset):
     #normalizzazione
     dataset['cycle_norm'] = dataset['time_in_cycles']
     cols_normalize_2 = dataset.columns.difference(['unit_ID','time_in_cycles','RUL'])
-    min_max_scaler = preprocessing.MinMaxScaler()
+    min_max_scaler = MinMaxScaler()
     norm_test_df = pd.DataFrame(min_max_scaler.transform(dataset[cols_normalize_2]), 
                             columns=cols_normalize_2, 
                             index=dataset.index)
