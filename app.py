@@ -60,7 +60,7 @@ def fare_previsioni(dataset):
     return y_pred_test
 
 # Configurazione dell'applicazione Streamlit
-st.title("Forecasting app")
+#st.title("Forecasting app")
 
 # Caricamento del dataset
 file = st.file_uploader("Carica il dataset", type=["txt"])
