@@ -52,6 +52,13 @@ def preprocessing(dataset):
 def fare_previsioni(dataset):
     dataset = preprocessing(dataset)
     
+    #calcolo unit id corrispondenti alle serie troppo corte
+    serie_troppo_corte = dataset[["unit_ID", "time_in_cycles"]].groupby("unit_ID").count()
+    serie_troppo_corte = list(serie_troppo_corte[serie_troppo_corte["time_in_cycles"] < 50].index)
+
+    #calcolo unit_id rimanenti e quindi usati per le predizioni
+    unit_id_predicted = list(set(dataset["unit_ID"]) - set(serie_troppo_corte)) 
+    
     # We pick the last sequence for each id in the test data
     seq_array_test_last = [dataset[dataset['unit_ID']==id][sequence_cols].values[-sequence_length:] 
                           for id in dataset['unit_ID'].unique() if len(dataset[dataset['unit_ID']==id]) >= sequence_length]
@@ -59,8 +66,17 @@ def fare_previsioni(dataset):
 
     estimator = keras.models.load_model(model_path,custom_objects={'r2_keras': r2_keras})
     y_pred_test = estimator.predict(seq_array_test_last)
+    
+    #creazione dataframe per risultati
+    results = pd.DataFrame({"unit_ID": unit_id_predicted, "previsioni": y_pred_test.flatten()})
 
-    return y_pred_test
+    #aggiunta dati non calcolati
+    for s in serie_troppo_corte:
+    results.loc[len(results)] = [s, "serie storica fornita non sufficientemente lunga"]
+
+    results = results.sort_values(by = "unit_ID").reset_index(drop = True)
+
+    return results
 
 # Funzione per scaricare il dataset delle previsioni come file CSV
 def scarica_csv(dataframe):
@@ -105,12 +121,11 @@ if file is not None:
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
         st.write("Unit_id : Previsioni")
-        for i, previsione in enumerate(previsioni):
-            if previsione > soglia:
-                st.markdown(f'{dataset[0].unique()[i]} : <span style="color:red">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
+        for riga in range(len(previsioni)):
+            if previsioni["privisioni"][riga].isnumeric() and previsioni["privisioni"][riga]> soglia:
+                st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["privisioni"][riga]}</span>', unsafe_allow_html=True)
             else:
-                st.markdown(f'{dataset[0].unique()[i]} : <span style="color:black">{str(previsione)[1:-1]}</span>', unsafe_allow_html=True)
+                st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["privisioni"][riga]}</span>', unsafe_allow_html=True)
                 
          # Bottone per scaricare il dataset delle previsioni
-        df_previsioni = pd.DataFrame({'Previsioni': previsioni.flatten()})
-        st.markdown(scarica_csv(df_previsioni), unsafe_allow_html=True)
+        st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
