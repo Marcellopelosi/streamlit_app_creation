@@ -118,7 +118,7 @@ if file is not None:
         previsioni = fare_previsioni(dataset)
         
         st.write("Stabilisci la soglia di allerta")
-        soglia = st.slider('How old are you?', 20, 100, 75)
+        soglia = st.slider('How old are you?', 20, 100, 75, on_change = fare_previsioni(dataset))
         
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
