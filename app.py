@@ -25,7 +25,6 @@ sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
 sequence_cols.extend(sensor_cols)
 model_path = "model_lstm.h5"
 sequence_length = 50
-soglia = 75
 
 # Carica lo scaler da file pickle
 with open('min_max_scaler.pkl', 'rb') as file:
@@ -117,7 +116,10 @@ if file is not None:
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset)
-
+        
+        st.write("Stabilisci la soglia di allerta")
+        soglia = st.slider('How old are you?', 20, 100, 75)
+        
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
         st.write("Unit_id : Previsioni")
