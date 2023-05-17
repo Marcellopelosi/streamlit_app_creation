@@ -122,7 +122,7 @@ if file is not None:
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
         st.write("Unit_id : Previsioni")
         for riga in range(len(previsioni)):
-            if previsioni["previsioni"][riga].isnumeric() and previsioni["previsioni"][riga]> soglia:
+            if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
             else:
                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
