@@ -123,9 +123,9 @@ if file is not None:
         st.write("Unit_id : Previsioni")
         for riga in range(len(previsioni)):
             if previsioni["previsioni"][riga].isnumeric() and previsioni["previsioni"][riga]> soglia:
-                st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["privisioni"][riga]}</span>', unsafe_allow_html=True)
+                st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
             else:
-                st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["privisioni"][riga]}</span>', unsafe_allow_html=True)
+                st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
                 
          # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
