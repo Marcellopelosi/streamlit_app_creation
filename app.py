@@ -72,7 +72,7 @@ def fare_previsioni(dataset):
 
     #aggiunta dati non calcolati
     for s in serie_troppo_corte:
-    results.loc[len(results)] = [s, "serie storica fornita non sufficientemente lunga"]
+        results.loc[len(results)] = [s, "serie storica fornita non sufficientemente lunga"]
 
     results = results.sort_values(by = "unit_ID").reset_index(drop = True)
 
