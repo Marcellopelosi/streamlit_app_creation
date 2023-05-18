@@ -122,7 +122,7 @@ if file is not None:
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
 
         # Aggiunta di una colonna per il colore dei valori
-        df_previsioni['Colore'] = df_previsioni['Previsioni'].apply(lambda x: 'red' if isinstance(x, float) and x > soglia else 'black')
+        df_previsioni['colore'] = df_previsioni['previsioni'].apply(lambda x: 'red' if isinstance(x, float) and x > soglia else 'black')
 
         # Visualizzazione del DataFrame come tabella colorata
         st.dataframe(df_previsioni.style.apply(lambda row: f"color: {row['Colore']}", axis=1))
