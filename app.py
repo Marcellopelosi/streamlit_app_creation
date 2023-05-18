@@ -101,8 +101,8 @@ if file is not None:
     
     # Visualizza grafici
     if st.button("Visualizza grafici"):
-       d_for_plot = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False).reset_index()
-       d_for_plot.columns = ["unit_ID", "max_cycles"]
+       d_for_plot = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
+       d_for_plot.columns = ["max_cycles"]
        st.bar_chart(d_for_plot["max_cycles"])
 
           
