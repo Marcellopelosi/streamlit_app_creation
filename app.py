@@ -10,11 +10,19 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import base64
 
+"""
 def colors(val):
   if val != "serie storica fornita non sufficientemente lunga" and float(val) > soglia:
     return "color: red"
   else:
     return "color: black"
+"""
+
+def colors(val, soglia):
+    if val != "serie storica fornita non sufficientemente lunga" and float(val) > soglia:
+        return "color: red"
+    else:
+        return "color: black"
 
 def r2_keras(y_true, y_pred):
     """Coefficient of Determination 
@@ -117,11 +125,8 @@ if file is not None:
         plt.ylabel('Id unità')
         plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
         st.pyplot(plt)
-    
-    
-
-    
-# Esegui previsioni sul dataset caricato
+     
+    # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
         soglia = st.slider("Soglia", min_value=20, max_value=100, value=75, step=1)
         previsioni = fare_previsioni(dataset)
@@ -130,17 +135,17 @@ if file is not None:
 
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-        st.dataframe(previsioni.style.applymap(colors), width=500)
+        st.dataframe(previsioni.style.applymap(lambda x: colors(x, soglia)), width=500)
 
         # Slider interattivo per aggiornare la soglia
         def update_threshold(new_soglia):
-            nonlocal soglia
-            soglia = new_soglia
-            st.dataframe(previsioni.style.applymap(colors), width=500)
+            st.dataframe(previsioni.style.applymap(lambda x: colors(x, new_soglia)), width=500)
 
         st.slider("Soglia", min_value=20, max_value=100, value=soglia, step=1, on_change=update_threshold)
 
         # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
+    
+    
 
 
