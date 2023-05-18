@@ -133,7 +133,7 @@ if file is not None:
         # Mostra le previsioni
         previsioni_formattate = fare_previsioni(dataset, soglia)
         for previsione in previsioni_formattate:
-            previsioni_placeholder.markdown(previsione, unsafe_allow_html=True)
+            previsioni_placeholder.markdown(previsione, unsafe_allow_html=True) 
         
         # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
