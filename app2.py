@@ -72,17 +72,8 @@ def fare_previsioni(dataset,soglia):
             previsioni_formattate.append(f'<span style="color:red">{previsione}</span>')
         else:
             previsioni_formattate.append(str(previsione))
-    
-    #creazione dataframe per risultati
-    results = pd.DataFrame({"unit_ID": unit_id_predicted, "previsioni": previsioni_formattate})
 
-    #aggiunta dati non calcolati
-    for s in serie_troppo_corte:
-        results.loc[len(results)] = [s, "serie storica fornita non sufficientemente lunga"]
-
-    results = results.sort_values(by = "unit_ID").reset_index(drop = True)
-
-    return results
+    return previsioni_formattate
 
 # Funzione per scaricare il dataset delle previsioni come file CSV
 def scarica_csv(dataframe):
@@ -123,10 +114,10 @@ if file is not None:
 #           st.bar_chart(data=cnt_train, x= cnt_train.iloc[:,0], y= cnt_train.iloc[:,1])
           
     
-    soglia = st.slider("scegli una soglia", min_value=20, max_value=100, value=75, step=1)
+    
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
-        previsioni = fare_previsioni(dataset, soglia)
+        soglia = st.slider("scegli una soglia", min_value=20, max_value=100, value=75, step=1)
  
         previsioni_placeholder = st.empty()
 
@@ -136,4 +127,5 @@ if file is not None:
             previsioni_placeholder.markdown(previsione, unsafe_allow_html=True) 
         
         # Bottone per scaricare il dataset delle previsioni
-        st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
+        df_previsioni = pd.DataFrame({'Previsioni': previsioni_formattate})
+        st.markdown(scarica_csv(df_previsioni), unsafe_allow_html=True)
