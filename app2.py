@@ -125,7 +125,7 @@ if file is not None:
     
     soglia = st.slider("scegli una soglia", min_value=20, max_value=100, value=75, step=1)
 # Esegui previsioni sul dataset caricato
-    if st.button("Fai previsioni")
+    if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset, soglia)
  
         previsioni_placeholder = st.empty()
