@@ -117,15 +117,18 @@ if file is not None:
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset)
-        
+
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-        st.write("Unit_id : Previsioni")
-        for riga in range(len(previsioni)):
-            if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
-                st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
-            else:
-                st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
-                
-         # Bottone per scaricare il dataset delle previsioni
-        st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
+
+        # Creazione del DataFrame delle previsioni
+        df_previsioni = pd.DataFrame({'Unit_id': previsioni['unit_ID'], 'Previsioni': previsioni['previsioni']})
+
+        # Aggiunta di una colonna per il colore dei valori
+        df_previsioni['Colore'] = df_previsioni['Previsioni'].apply(lambda x: 'red' if isinstance(x, float) and x > soglia else 'black')
+
+        # Visualizzazione del DataFrame come tabella colorata
+        st.dataframe(df_previsioni.style.apply(lambda row: f"color: {row['Colore']}", axis=1))
+
+        # Bottone per scaricare il dataset delle previsioni
+        st.markdown(scarica_csv(df_previsioni), unsafe_allow_html=True)
