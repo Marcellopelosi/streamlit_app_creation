@@ -116,10 +116,10 @@ if file is not None:
     
 def colors(df):    
     for riga in range(len(previsioni)):
-    if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
-        return "red"
-    else:
-        return "black"
+        if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
+            return "red"
+        else:
+            return "black"
     
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
