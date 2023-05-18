@@ -25,6 +25,7 @@ sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
 sequence_cols.extend(sensor_cols)
 model_path = "model_lstm.h5"
 sequence_length = 50
+soglia = 75
 
 # Carica lo scaler da file pickle
 with open('min_max_scaler.pkl', 'rb') as file:
@@ -101,18 +102,22 @@ if file is not None:
     
     # Visualizza grafici
     if st.button("Visualizza grafici"):
-       d_for_plot = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
-       d_for_plot.columns = ["max_cycles"]
-       st.bar_chart(d_for_plot["max_cycles"])
-
-          
+        cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
+        cnt_ind = [str(i) for i in cnt_train.index.to_list()]
+        cnt_val = list(cnt_train[1].values)
+        
+        plt.figure(figsize=(12, 30))
+        sns.barplot(x=list(cnt_val), y=list(cnt_ind), palette='Spectral') #controllare casting
+        plt.xlabel('Numbero di cicli')
+        plt.ylabel('Id unità')
+        plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
+        st.pyplot(plt)
     
 
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
-        soglia = st.slider("Soglia", min_value=20, max_value=100, value=75, step=1)
         previsioni = fare_previsioni(dataset)
- 
+        
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
         st.write("Unit_id : Previsioni")
