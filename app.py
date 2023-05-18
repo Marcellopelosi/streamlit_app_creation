@@ -114,6 +114,13 @@ if file is not None:
         st.pyplot(plt)
     
     
+def colors(df):    
+    for riga in range(len(previsioni)):
+    if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
+        return "red"
+    else:
+        return "black"
+    
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset)
@@ -126,7 +133,7 @@ if file is not None:
 #                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
 #             else:
 #                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
-        st.dataframe(previsioni)
+        st.dataframe(previsioni.style.applymap(colors))
          # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
 
