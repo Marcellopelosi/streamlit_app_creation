@@ -125,7 +125,7 @@ if file is not None:
         df_previsioni['colore'] = df_previsioni['previsioni'].apply(lambda x: 'red' if isinstance(x, float) and x > soglia else 'black')
 
         # Visualizzazione del DataFrame come tabella colorata
-        st.dataframe(df_previsioni.style.apply(lambda row: f"color: {row['Colore']}", axis=1))
+        st.dataframe(df_previsioni.style.apply(lambda row: f"color: {row['colore']}", axis=1))
 
         # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(df_previsioni), unsafe_allow_html=True)
