@@ -10,6 +10,12 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import base64
 
+def colors(df):    
+    for riga in range(len(previsioni)):
+        if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
+            return "red"
+        else:
+            return "black"
 
 def r2_keras(y_true, y_pred):
     """Coefficient of Determination 
@@ -114,12 +120,7 @@ if file is not None:
         st.pyplot(plt)
     
     
-def colors(df):    
-    for riga in range(len(previsioni)):
-        if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
-            return "red"
-        else:
-            return "black"
+
     
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
