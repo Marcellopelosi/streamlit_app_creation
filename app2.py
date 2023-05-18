@@ -74,7 +74,7 @@ def fare_previsioni(dataset,soglia):
             previsioni_formattate.append(str(previsione))
     
     #creazione dataframe per risultati
-    results = pd.DataFrame({"unit_ID": unit_id_predicted, "previsioni": previsioni_formattate.flatten()})
+    results = pd.DataFrame({"unit_ID": unit_id_predicted, "previsioni": previsioni_formattate})
 
     #aggiunta dati non calcolati
     for s in serie_troppo_corte:
