@@ -10,12 +10,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import base64
 
-def colors(df):    
-    for riga in range(len(previsioni)):
-        if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
-            return "red"
-        else:
-            return "black"
+def colors(val): 
+  if val != "serie storica fornita non sufficientemente lunga" and float(val) > soglia:
+    return "color: red"
+  else:
+    return "color: black"
 
 def r2_keras(y_true, y_pred):
     """Coefficient of Determination 
@@ -125,7 +124,8 @@ if file is not None:
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset)
-        
+        previsioni.index = previsioni["unit_ID"]
+        previsioni.drop(columns = "unit_ID", inplace = True)
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
 #         st.write("Unit_id : Previsioni")
@@ -134,7 +134,7 @@ if file is not None:
 #                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
 #             else:
 #                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
-        st.dataframe(previsioni)
+        st.dataframe(previsioni.style.applymap(colors))
          # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
 
