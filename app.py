@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import base64
 
 def colors(val): 
+  soglia = st.slider("Soglia", min_value=20, max_value=100, value=75, step=1)
   if val != "serie storica fornita non sufficientemente lunga" and float(val) > soglia:
     return "color: red"
   else:
