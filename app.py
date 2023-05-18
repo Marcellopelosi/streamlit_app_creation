@@ -116,13 +116,10 @@ if file is not None:
 
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
-        previsioni = fare_previsioni(dataset)
+        df_previsioni = fare_previsioni(dataset)
 
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-
-        # Creazione del DataFrame delle previsioni
-        df_previsioni = pd.DataFrame({'Unit_id': previsioni['unit_ID'], 'Previsioni': previsioni['previsioni']})
 
         # Aggiunta di una colonna per il colore dei valori
         df_previsioni['Colore'] = df_previsioni['Previsioni'].apply(lambda x: 'red' if isinstance(x, float) and x > soglia else 'black')
