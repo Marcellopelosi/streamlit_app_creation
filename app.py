@@ -126,7 +126,7 @@ if file is not None:
 #                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
 #             else:
 #                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
-         st.dataframe(previsioni)
+        st.dataframe(previsioni)
          # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
 
