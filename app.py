@@ -123,16 +123,24 @@ if file is not None:
     
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
+        soglia = st.slider("Soglia", min_value=20, max_value=100, value=75, step=1)
         previsioni = fare_previsioni(dataset)
         previsioni.index = previsioni["unit_ID"]
-        previsioni.drop(columns = "unit_ID", inplace = True)
-        
+        previsioni.drop(columns="unit_ID", inplace=True)
+
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-        st.dataframe(previsioni.style.applymap(colors), width = 500)
-        
-         # Bottone per scaricare il dataset delle previsioni
+        st.dataframe(previsioni.style.applymap(colors), width=500)
+
+        # Slider interattivo per aggiornare la soglia
+        def update_threshold(new_soglia):
+            nonlocal soglia
+            soglia = new_soglia
+            st.dataframe(previsioni.style.applymap(colors), width=500)
+
+        st.slider("Soglia", min_value=20, max_value=100, value=soglia, step=1, on_change=update_threshold)
+
+        # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
 
-        
-        
+
