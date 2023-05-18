@@ -114,11 +114,10 @@ if file is not None:
 #           st.bar_chart(data=cnt_train, x= cnt_train.iloc[:,0], y= cnt_train.iloc[:,1])
           
     
-    
+    soglia = st.slider("scegli una soglia", min_value=20, max_value=100, value=75, step=1)  
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
-        soglia = st.slider("scegli una soglia", min_value=20, max_value=100, value=75, step=1)
- 
+        
         previsioni_placeholder = st.empty()
 
         # Mostra le previsioni
