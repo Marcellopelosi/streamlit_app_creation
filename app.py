@@ -103,7 +103,7 @@ if file is not None:
     if st.button("Visualizza grafici"):
        d_for_plot = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False).reset_index()
        d_for_plot.columns = ["unit_ID", "max_cycles"]
-       st.bar_chart(d_for_plot["max_cycles"], x = d_for_plot["unit_ID"], title = "Numero di cicli")
+       st.bar_chart(d_for_plot["max_cycles"], x = d_for_plot["unit_ID"])
 
           
     
