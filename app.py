@@ -126,15 +126,11 @@ if file is not None:
         previsioni = fare_previsioni(dataset)
         previsioni.index = previsioni["unit_ID"]
         previsioni.drop(columns = "unit_ID", inplace = True)
+        
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-#         st.write("Unit_id : Previsioni")
-#         for riga in range(len(previsioni)):
-#             if type(previsioni["previsioni"][riga]) == float and previsioni["previsioni"][riga]> soglia:
-#                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:red">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
-#             else:
-#                 st.markdown(f'{previsioni["unit_ID"][riga]} : <span style="color:black">{ previsioni["previsioni"][riga]}</span>', unsafe_allow_html=True)
         st.dataframe(previsioni.style.applymap(colors), width = 500)
+        
          # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
 
