@@ -30,7 +30,7 @@ sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
 sequence_cols.extend(sensor_cols)
 model_path = "model_lstm.h5"
 sequence_length = 50
-soglia = 75
+#soglia = 75
 
 # Carica lo scaler da file pickle
 with open('min_max_scaler.pkl', 'rb') as file:
