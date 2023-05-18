@@ -101,19 +101,8 @@ if file is not None:
     
     # Visualizza grafici
     if st.button("Visualizza grafici"):
-        st.write("OOOK")
-#         cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
-#         cnt_ind = [str(i) for i in cnt_train.index.to_list()]
-#         cnt_val = list(cnt_train[1].values)
-        
-#         plt.figure(figsize=(12, 30))
-#         sns.barplot(x=list(cnt_val), y=list(cnt_ind), palette='Spectral') #controllare casting
-#         plt.xlabel('Numbero di cicli')
-#         plt.ylabel('Id unità')
-#         plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
-#         st.pyplot(plt)
-#           cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
-#           st.bar_chart(data=cnt_train, x= cnt_train.iloc[:,0], y= cnt_train.iloc[:,1])
+       st.bar_chart(dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False))
+
           
     
 
