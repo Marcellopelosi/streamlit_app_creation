@@ -101,7 +101,7 @@ if file is not None:
     
     # Visualizza grafici
     if st.button("Visualizza grafici"):
-       st.bar_chart(dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False))
+       st.bar_chart(data = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False))
 
           
     
