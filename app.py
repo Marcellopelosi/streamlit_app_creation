@@ -113,7 +113,7 @@ if file is not None:
 #         plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
 #         st.pyplot(plt)
           cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
-          st.bar_chart(data=cnt_train, x= cnt_train[0], y= cnt_train[1])
+          st.bar_chart(data=cnt_train, x= cnt_train.iloc[:,0], y= cnt_train.iloc[:,1])
           
     
 
