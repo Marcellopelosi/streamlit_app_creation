@@ -9,7 +9,7 @@ import streamlit as st
 import seaborn as sns
 import matplotlib.pyplot as plt
 import base64
-import plotly.graph_objects as go
+import plotly.express as px
 
 
 def colors(val, soglia):
@@ -123,22 +123,16 @@ if file is not None:
         # Display DataFrame
         st.subheader("Data")
 
-    # Select party
-    selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
-    
-    # Filter DataFrame based on party selection
-    filtered_df = dataset[dataset[0] == selected_unit_id]
-    
-    # Display filtered DataFrame
-    st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
+        selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
 
-    # Plotting line graph for each column
-    for column in filtered_df.columns:
-        if column != 0:
-            fig = go.Figure()
-            fig.add_trace(go.Scatter(x=filtered_df[0], y=filtered_df[column], mode='lines', name=column))
-            fig.update_layout(title=f"{column} over Names", xaxis_title="Name", yaxis_title=column)
-            st.plotly_chart(fig)
+        # Filter DataFrame based on party selection
+        filtered_df = dataset[dataset[0] == selected_unit_id]
+
+        # Display filtered DataFrame
+        st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
+
+        fig = px.line(filtered_df, x=1, y=2)
+        st.plotly_chart(fig)
         
      
     
