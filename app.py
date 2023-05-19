@@ -9,6 +9,7 @@ import streamlit as st
 import seaborn as sns
 import matplotlib.pyplot as plt
 import base64
+import plotly.graph_objects as go
 
 
 def colors(val, soglia):
@@ -130,7 +131,6 @@ if file is not None:
     
     # Display filtered DataFrame
     st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
-    st.dataframe(filtered_df)
 
     # Plotting line graph for each column
     for column in filtered_df.columns:
