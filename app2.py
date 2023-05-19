@@ -1,130 +1,33 @@
-import numpy as np
-import os
-import pickle
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from tensorflow import keras
-import keras.backend as K
 import streamlit as st
-import seaborn as sns
-import matplotlib.pyplot as plt
-import base64
+import plotly.express as px
 
+# Create sample DataFrame
+data = {
+    'Name': ['John', 'Jane', 'Alice', 'Bob'],
+    'Age': [32, 28, 35, 41],
+    'Party': ['A', 'B', 'A', 'B']
+}
+df = pd.DataFrame(data)
 
-def r2_keras(y_true, y_pred):
-    """Coefficient of Determination 
-    """
-    SS_res =  K.sum(K.square( y_true - y_pred ))
-    SS_tot = K.sum(K.square( y_true - K.mean(y_true) ) )
-    return ( 1 - SS_res/(SS_tot + K.epsilon()) )
-
-sensor_cols = ['T2', 'T24', 'T30', 'T50', 'P2', 'P15', 'P30', 'Nf', 'Nc', 'epr',
-       'Ps30', 'phi', 'NRf', 'NRc', 'BPR', 'farB', 'htBleed', 'Nf_dmd',
-       'PCNfR_dmd', 'W31', 'W32']
-sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
-sequence_cols.extend(sensor_cols)
-model_path = "model_lstm.h5"
-sequence_length = 50
-
-# Carica lo scaler da file pickle
-with open('min_max_scaler.pkl', 'rb') as file:
-    min_max_scaler = pickle.load(file)    
+# Streamlit app
+def main():
+    st.title("Party Visualization")
     
-def preprocessing(dataset):
-    dataset = dataset.drop(columns=[26,27], axis=1)
-    columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3','T2','T24','T30','T50','P2','P15','P30','Nf',
-           'Nc','epr','Ps30','phi','NRf','NRc','BPR','farB','htBleed','Nf_dmd','PCNfR_dmd','W31','W32' ]
-    dataset.columns = columns_test
-    #normalizzazione
-    dataset['cycle_norm'] = dataset['time_in_cycles']
-    cols_normalize_2 = dataset.columns.difference(['unit_ID','time_in_cycles','RUL'])
-    norm_test_df = pd.DataFrame(min_max_scaler.transform(dataset[cols_normalize_2]), 
-                            columns=cols_normalize_2, 
-                            index=dataset.index)
-    test_join_df = dataset[dataset.columns.difference(cols_normalize_2)].join(norm_test_df)
-    dataset = test_join_df.reindex(columns = dataset.columns)
-    dataset = dataset.reset_index(drop=True)
+    # Display DataFrame
+    st.subheader("Data")
+    st.dataframe(df)
+
+    # Select party
+    party_selection = st.selectbox("Select Party", df['Party'].unique())
     
-    return dataset
-
-# Funzione per fare previsioni sul dataset caricato
-def fare_previsioni(dataset,soglia):
-    dataset = preprocessing(dataset)
+    # Filter DataFrame based on party selection
+    filtered_df = df[df['Party'] == party_selection]
     
-    #calcolo unit id corrispondenti alle serie troppo corte
-    serie_troppo_corte = dataset[["unit_ID", "time_in_cycles"]].groupby("unit_ID").count()
-    serie_troppo_corte = list(serie_troppo_corte[serie_troppo_corte["time_in_cycles"] < 50].index)
+    # Plotting
+    st.subheader(f"Party {party_selection} Members")
+    fig = px.bar(filtered_df, x='Name', y='Age', color='Name')
+    st.plotly_chart(fig)
 
-    #calcolo unit_id rimanenti e quindi usati per le predizioni
-    unit_id_predicted = list(set(dataset["unit_ID"]) - set(serie_troppo_corte)) 
-    
-    # We pick the last sequence for each id in the test data
-    seq_array_test_last = [dataset[dataset['unit_ID']==id][sequence_cols].values[-sequence_length:] 
-                          for id in dataset['unit_ID'].unique() if len(dataset[dataset['unit_ID']==id]) >= sequence_length]
-    seq_array_test_last = np.asarray(seq_array_test_last).astype(np.float32)
-
-    estimator = keras.models.load_model(model_path,custom_objects={'r2_keras': r2_keras})
-    previsioni = estimator.predict(seq_array_test_last)
-    
-    previsioni_formattate = []
-    for previsione in previsioni:
-        if previsione > soglia:
-            previsioni_formattate.append(f'<span style="color:red">{previsione}</span>')
-        else:
-            previsioni_formattate.append(str(previsione))
-
-    return previsioni_formattate
-
-# Funzione per scaricare il dataset delle previsioni come file CSV
-def scarica_csv(dataframe):
-    csv = dataframe.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()
-    href = f'<a href="data:file/csv;base64,{b64}" download="previsioni.csv">Scarica file CSV</a>'
-    return href
-
-# Configurazione dell'applicazione Streamlit
-st.title("Forecasting app")
-
-# Caricamento del dataset
-file = st.file_uploader("Carica il dataset", type=["txt"])
-
-if file is not None:
-    # Leggi il file CSV in un DataFrame pandas
-    dataset = pd.read_csv(file, sep=" ", header=None)
-    
-
-    # Mostra il dataset
-    st.subheader("Dataset caricato")
-    st.write(dataset)
-    
-    # Visualizza grafici
-    if st.button("Visualizza grafici"):
-        st.write("OOOK")
-#         cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
-#         cnt_ind = [str(i) for i in cnt_train.index.to_list()]
-#         cnt_val = list(cnt_train[1].values)
-        
-#         plt.figure(figsize=(12, 30))
-#         sns.barplot(x=list(cnt_val), y=list(cnt_ind), palette='Spectral') #controllare casting
-#         plt.xlabel('Numbero di cicli')
-#         plt.ylabel('Id unità')
-#         plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
-#         st.pyplot(plt)
-#           cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
-#           st.bar_chart(data=cnt_train, x= cnt_train.iloc[:,0], y= cnt_train.iloc[:,1])
-          
-    
-    soglia = st.slider("scegli una soglia", min_value=20, max_value=100, value=75, step=1)  
-# Esegui previsioni sul dataset caricato
-    if st.button("Fai previsioni"):
-        
-        previsioni_placeholder = st.empty()
-
-        # Mostra le previsioni
-        previsioni_formattate = fare_previsioni(dataset, soglia)
-        for previsione in previsioni_formattate:
-            previsioni_placeholder.markdown(previsione, unsafe_allow_html=True) 
-        
-        # Bottone per scaricare il dataset delle previsioni
-        df_previsioni = pd.DataFrame({'Previsioni': previsioni_formattate})
-        st.markdown(scarica_csv(df_previsioni), unsafe_allow_html=True)
+if __name__ == '__main__':
+    main()
