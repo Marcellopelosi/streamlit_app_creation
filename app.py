@@ -13,7 +13,7 @@ import plotly.express as px
 
 
 def colors(val, soglia):
-    if val != "serie storica fornita non sufficientemente lunga" and float(val) > soglia:
+    if val != "serie storica fornita non sufficientemente lunga" and float(val) < soglia:
         return "color: red"
     else:
         return "color: black"
@@ -32,7 +32,7 @@ sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
 sequence_cols.extend(sensor_cols)
 model_path = "model_lstm.h5"
 sequence_length = 50
-#soglia = 75
+soglia = 20
 
 # Carica lo scaler da file pickle
 with open('min_max_scaler.pkl', 'rb') as file:
@@ -106,8 +106,24 @@ if file is not None:
     # Mostra il dataset
     st.subheader("Dataset caricato")
     st.write(dataset)
+        
+    # Display DataFrame
+    st.subheader("Data")
+
+    selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
+    selected_column = st.selectbox("Select feature", dataset.columns[1:])
+
+
+    # Filter DataFrame based on party selection
+    filtered_df = dataset[dataset[0] == selected_unit_id]
+
+    # Display filtered DataFrame
+    st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
     
-    # Visualizza grafici
+    fig = px.line(filtered_df, x=1, y=selected_column)
+    st.plotly_chart(fig)
+    
+        # Visualizza grafici
     if st.button("Visualizza grafici"):
         cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
         cnt_ind = [str(i) for i in cnt_train.index.to_list()]
@@ -119,20 +135,6 @@ if file is not None:
         plt.ylabel('Id unità')
         plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
         st.pyplot(plt)
-        
-    # Display DataFrame
-    st.subheader("Data")
-
-    selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
-
-    # Filter DataFrame based on party selection
-    filtered_df = dataset[dataset[0] == selected_unit_id]
-
-    # Display filtered DataFrame
-    st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
-
-    fig = px.line(filtered_df, x=1, y=2)
-    st.plotly_chart(fig)
         
      
     
