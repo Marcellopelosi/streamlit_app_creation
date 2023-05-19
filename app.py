@@ -118,6 +118,28 @@ if file is not None:
         plt.ylabel('Id unità')
         plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
         st.pyplot(plt)
+        
+        # Display DataFrame
+        st.subheader("Data")
+
+    # Select party
+    selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
+    
+    # Filter DataFrame based on party selection
+    filtered_df = dataset[dataset[0] == selected_unit_id]
+    
+    # Display filtered DataFrame
+    st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
+    st.dataframe(filtered_df)
+
+    # Plotting line graph for each column
+    for column in filtered_df.columns:
+        if column != 0:
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=filtered_df[0], y=filtered_df[column], mode='lines', name=column))
+            fig.update_layout(title=f"{column} over Names", xaxis_title="Name", yaxis_title=column)
+            st.plotly_chart(fig)
+        
      
     
 # Esegui previsioni sul dataset caricato
