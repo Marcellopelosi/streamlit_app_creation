@@ -38,10 +38,11 @@ soglia = 20
 with open('min_max_scaler.pkl', 'rb') as file:
     min_max_scaler = pickle.load(file)    
     
-def preprocessing(dataset):
-    dataset = dataset.drop(columns=[26,27], axis=1)
     columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3','T2','T24','T30','T50','P2','P15','P30','Nf',
            'Nc','epr','Ps30','phi','NRf','NRc','BPR','farB','htBleed','Nf_dmd','PCNfR_dmd','W31','W32' ]
+    
+def preprocessing(dataset):
+    dataset = dataset.drop(columns=[26,27], axis=1)
     dataset.columns = columns_test
     #normalizzazione
     dataset['cycle_norm'] = dataset['time_in_cycles']
@@ -111,7 +112,7 @@ if file is not None:
     st.subheader("Data")
 
     selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
-    selected_column = st.selectbox("Select feature", dataset.columns[1:])
+    selected_column = st.selectbox("Select feature", columns_test[2:])
 
 
     # Filter DataFrame based on party selection
@@ -120,7 +121,7 @@ if file is not None:
     # Display filtered DataFrame
     st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
     
-    fig = px.line(filtered_df, x=1, y=selected_column)
+    fig = px.line(filtered_df, x=1, y= columns_test.find(selected_column))
     st.plotly_chart(fig)
     
         # Visualizza grafici
