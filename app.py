@@ -107,25 +107,21 @@ if file is not None:
     # Mostra il dataset
     st.subheader("Dataset caricato")
     st.write(dataset)
-        
-    # Display DataFrame
-    st.subheader("Data")
-
+    st.subheader("Ispeziona il dataset") 
     selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
+    st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
     selected_column = st.selectbox("Select feature", columns_test[2:])
 
 
     # Filter DataFrame based on party selection
     filtered_df = dataset[dataset[0] == selected_unit_id]
 
-    # Display filtered DataFrame
-    st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
     
     fig = px.line(filtered_df, x=1, y= columns_test.index(selected_column))
     st.plotly_chart(fig)
     
         # Visualizza grafici
-    if st.button("Visualizza grafici"):
+    if st.button("Visualizza altri grafici"):
         cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
         cnt_ind = [str(i) for i in cnt_train.index.to_list()]
         cnt_val = list(cnt_train[1].values)
