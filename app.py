@@ -120,19 +120,19 @@ if file is not None:
         plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
         st.pyplot(plt)
         
-        # Display DataFrame
-        st.subheader("Data")
+    # Display DataFrame
+    st.subheader("Data")
 
-        selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
+    selected_unit_id = st.selectbox("Select Unit ID", dataset[0].unique())
 
-        # Filter DataFrame based on party selection
-        filtered_df = dataset[dataset[0] == selected_unit_id]
+    # Filter DataFrame based on party selection
+    filtered_df = dataset[dataset[0] == selected_unit_id]
 
-        # Display filtered DataFrame
-        st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
+    # Display filtered DataFrame
+    st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
 
-        fig = px.line(filtered_df, x=1, y=2)
-        st.plotly_chart(fig)
+    fig = px.line(filtered_df, x=1, y=2)
+    st.plotly_chart(fig)
         
      
     
