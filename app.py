@@ -38,7 +38,7 @@ soglia = 20
 with open('min_max_scaler.pkl', 'rb') as file:
     min_max_scaler = pickle.load(file)    
     
-    columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3','T2','T24','T30','T50','P2','P15','P30','Nf',
+columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3','T2','T24','T30','T50','P2','P15','P30','Nf',
            'Nc','epr','Ps30','phi','NRf','NRc','BPR','farB','htBleed','Nf_dmd','PCNfR_dmd','W31','W32' ]
     
 def preprocessing(dataset):
@@ -121,7 +121,7 @@ if file is not None:
     # Display filtered DataFrame
     st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
     
-    fig = px.line(filtered_df, x=1, y= columns_test.find(selected_column))
+    fig = px.line(filtered_df, x=1, y= columns_test.index(selected_column))
     st.plotly_chart(fig)
     
         # Visualizza grafici
