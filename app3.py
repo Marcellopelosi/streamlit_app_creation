@@ -39,7 +39,7 @@ if file is not None:
      
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
-        previsioni = fare_previsioni(dataset)
+        previsioni = fare_previsioni(dataset, columns_test)
         
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
