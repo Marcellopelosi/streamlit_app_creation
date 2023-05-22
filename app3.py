@@ -103,7 +103,7 @@ def scarica_csv(dataframe):
     href = f'<a href="data:file/csv;base64,{b64}" download="previsioni.csv">Scarica file CSV</a>'
     return href
   
-def interactive_chart_creator(dataset):
+def bar_plot_creator(dataset):
     cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
     cnt_ind = [str(i) for i in cnt_train.index.to_list()]
     cnt_val = list(cnt_train[1].values)
@@ -118,6 +118,11 @@ def interactive_chart_creator(dataset):
 
 def elaboratore_previsioni(previsioni):
     return previsioni.style.applymap(colors)
+
+def interactive_chart_creator(dataset, selected_unit_id, selected_column, columns_test):
+    filtered_df = dataset[dataset[0] == selected_unit_id]
+    fig = px.line(filtered_df, x=1, y= columns_test.index(selected_column))
+    return fig
   
   
 
@@ -143,7 +148,7 @@ if file is not None:
     
     selected_column = st.selectbox("Select feature", second_features_list)
     
-    interactive_chart = interactive_chart_creator(dataset)
+    interactive_chart = interactive_chart_creator(dataset, selected_unit_id, selected_column, columns_test)
     st.plotly_chart(interactive_chart)
     
     
