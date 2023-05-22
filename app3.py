@@ -43,7 +43,7 @@ if file is not None:
         
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-        st.dataframe(elaboratore_previsioni(previsioni), width = 500)
+        st.dataframe(elaboratore_previsioni(previsioni, soglia), width = 500)
         
         # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
