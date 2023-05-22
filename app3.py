@@ -6,10 +6,6 @@ first_feature_to_select = "unit_ID"
 second_features_list = [x for x in columns_test if x not in ["unit_ID", "time_in_cycles"]]
 soglia = 20
 
-_, _ = select_box_preparator(first_feature_to_select, second_feature_to_select)
-interactive_chart = interactive_chart_creator(dataset)
-
-
 
 st.title("Forecasting app")
 
@@ -31,6 +27,7 @@ if file is not None:
     
     selected_column = st.selectbox("Select feature", second_features_list)
     
+    interactive_chart = interactive_chart_creator(dataset)
     st.plotly_chart(interactive_chart)
     
     
