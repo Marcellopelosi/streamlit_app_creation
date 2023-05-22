@@ -4,7 +4,7 @@ import pandas as pd
 columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3','T2','T24','T30','T50','P2','P15','P30','Nf','Nc','epr','Ps30','phi','NRf','NRc','BPR','farB','htBleed','Nf_dmd','PCNfR_dmd','W31','W32' ]
 first_feature_to_select = "unit_ID"
 second_features_list = [x for x in columns_test if x not in ["unit_ID", "time_in_cycles"]]
-soglia = 20
+soglia = 50
 from functions_implementation import interactive_chart_creator, bar_plot_creator, fare_previsioni, elaboratore_previsioni, scarica_csv
 
 st.title("Forecasting app")
