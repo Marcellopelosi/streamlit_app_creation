@@ -3,6 +3,8 @@ columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3',
 first_feature_to_select = "unit_ID"
 second_features_list = [x for x in columns_test if x not in ["unit_ID", "time_in_cycles"]]
 soglia = 20
+from functions_implementation import fare_previsioni, scarica_csv, interactive_chart_creator, elaboratore_previsioni
+
 
 
 st.title("Forecasting app")
