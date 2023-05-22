@@ -1,4 +1,5 @@
 import streamlit as st
+from functions_implementation import fare_previsioni, scarica_csv, interactive_chart_creator, elaboratore_previsioni
 
 columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3','T2','T24','T30','T50','P2','P15','P30','Nf',
                 'Nc','epr','Ps30','phi','NRf','NRc','BPR','farB','htBleed','Nf_dmd','PCNfR_dmd','W31','W32' ]
