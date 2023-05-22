@@ -48,8 +48,6 @@ with open('min_max_scaler.pkl', 'rb') as file:
     min_max_scaler = pickle.load(file)  
 
 
-
-
 def preprocessing(dataset):
     dataset = dataset.drop(columns=[26,27], axis=1)
     dataset.columns = columns_test
