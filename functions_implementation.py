@@ -38,7 +38,7 @@ with open('min_max_scaler.pkl', 'rb') as file:
     min_max_scaler = pickle.load(file)  
 
 
-def preprocessing(dataset):
+def preprocessing(dataset, columns_test):
     dataset = dataset.drop(columns=[26,27], axis=1)
     dataset.columns = columns_test
     #normalizzazione
@@ -54,7 +54,7 @@ def preprocessing(dataset):
     return dataset
 
 def fare_previsioni(dataset, columns_test):
-    dataset = preprocessing(dataset)
+    dataset = preprocessing(dataset, columns_test)
     
     #calcolo unit id corrispondenti alle serie troppo corte
     serie_troppo_corte = dataset[["unit_ID", "time_in_cycles"]].groupby("unit_ID").count()
