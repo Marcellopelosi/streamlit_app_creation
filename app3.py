@@ -90,7 +90,7 @@ def fare_previsioni(dataset):
 
     results = results.sort_values(by = "unit_ID").reset_index(drop = True)
     
-    results.index = previsioni["unit_ID"]
+    results.index = results["unit_ID"]
     
     results.drop(columns = "unit_ID", inplace = True)
 
