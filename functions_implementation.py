@@ -12,9 +12,7 @@ import base64
 import plotly.express as px
 
 
-soglia = 20
-
-def colors(val, soglia):
+def colors(val, soglia = 20):
     if val != "serie storica fornita non sufficientemente lunga" and float(val) < soglia:
         return "color: red"
     else:
@@ -34,13 +32,10 @@ sequence_cols = ['setting_1', 'setting_2', 'setting_3', 'cycle_norm']
 sequence_cols.extend(sensor_cols)
 model_path = "model_lstm.h5"
 sequence_length = 50
-soglia = 20
 
 # Carica lo scaler da file pickle
 with open('min_max_scaler.pkl', 'rb') as file:
     min_max_scaler = pickle.load(file)  
-
-
 
 
 def preprocessing(dataset):
@@ -58,7 +53,7 @@ def preprocessing(dataset):
     
     return dataset
 
-  def fare_previsioni(dataset):
+def fare_previsioni(dataset):
     dataset = preprocessing(dataset)
     
     #calcolo unit id corrispondenti alle serie troppo corte
@@ -85,7 +80,7 @@ def preprocessing(dataset):
 
     results = results.sort_values(by = "unit_ID").reset_index(drop = True)
     
-    results.index = previsioni["unit_ID"]
+    results.index = results["unit_ID"]
     
     results.drop(columns = "unit_ID", inplace = True)
 
@@ -98,7 +93,7 @@ def scarica_csv(dataframe):
     href = f'<a href="data:file/csv;base64,{b64}" download="previsioni.csv">Scarica file CSV</a>'
     return href
   
-def interactive_chart_creator(dataset):
+def bar_plot_creator(dataset):
     cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
     cnt_ind = [str(i) for i in cnt_train.index.to_list()]
     cnt_val = list(cnt_train[1].values)
@@ -113,5 +108,8 @@ def interactive_chart_creator(dataset):
 
 def elaboratore_previsioni(previsioni):
     return previsioni.style.applymap(colors)
-  
-  
+
+def interactive_chart_creator(dataset, selected_unit_id, selected_column, columns_test):
+    filtered_df = dataset[dataset[0] == selected_unit_id]
+    fig = px.line(filtered_df, x=1, y= columns_test.index(selected_column))
+    return fig
