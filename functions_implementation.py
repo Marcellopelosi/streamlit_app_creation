@@ -12,7 +12,7 @@ import base64
 import plotly.express as px
 
 
-def colors(val, soglia = 20):
+def colors(val, soglia):
     if val != "serie storica fornita non sufficientemente lunga" and float(val) < soglia:
         return "color: red"
     else:
@@ -106,8 +106,8 @@ def bar_plot_creator(dataset):
     return plt
 
 
-def elaboratore_previsioni(previsioni):
-    return previsioni.style.applymap(colors)
+def elaboratore_previsioni(previsioni, soglia = 20):
+    return previsioni.style.applymap(lambda x: colors(x, soglia))
 
 def interactive_chart_creator(dataset, selected_unit_id, selected_column, columns_test):
     filtered_df = dataset[dataset[0] == selected_unit_id]
