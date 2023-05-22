@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import base64
 import plotly.express as px
 
-
+solgia = 20
 def colors(val, soglia = 20):
     if val != "serie storica fornita non sufficientemente lunga" and float(val) < soglia:
         return "color: red"
