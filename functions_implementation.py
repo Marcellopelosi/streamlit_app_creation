@@ -53,7 +53,7 @@ def preprocessing(dataset):
     
     return dataset
 
-def fare_previsioni(dataset):
+def fare_previsioni(dataset, columns_test = columns_test):
     dataset = preprocessing(dataset)
     
     #calcolo unit id corrispondenti alle serie troppo corte
