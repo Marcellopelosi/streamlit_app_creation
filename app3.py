@@ -1,11 +1,17 @@
 import streamlit as st
 import pandas as pd
-
-columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3','T2','T24','T30','T50','P2','P15','P30','Nf','Nc','epr','Ps30','phi','NRf','NRc','BPR','farB','htBleed','Nf_dmd','PCNfR_dmd','W31','W32' ]
-first_feature_to_select = "unit_ID"
-second_features_list = [x for x in columns_test if x not in ["unit_ID", "time_in_cycles"]]
-soglia = 50
 from functions_implementation import interactive_chart_creator, bar_plot_creator, fare_previsioni, elaboratore_previsioni, scarica_csv
+
+#Inizializzazione delle variabili essenziali per l'interpretazione del dataset
+columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3','T2','T24','T30','T50','P2','P15','P30','Nf','Nc','epr','Ps30','phi','NRf','NRc','BPR','farB','htBleed','Nf_dmd','PCNfR_dmd','W31','W32' ]
+
+#Inizializzazione delle variabili necessarie per i grafici
+first_feature_to_select = "unit_ID"
+possible_second_feature_list = [x for x in columns_test if x not in ["unit_ID", "time_in_cycles"]]
+soglia = 25
+
+
+#Implementazione di Streamlit
 
 st.title("Forecasting app")
 
@@ -24,10 +30,9 @@ if file is not None:
     
     selected_unit_id = st.selectbox("Select {}".format(first_feature_to_select), dataset[columns_test.index(first_feature_to_select)].unique())
     st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
-    
-    selected_column = st.selectbox("Select feature", second_features_list)
-    
+    selected_column = st.selectbox("Select feature", possible_second_feature_list)
     interactive_chart = interactive_chart_creator(dataset, selected_unit_id, selected_column, columns_test)
+    
     st.plotly_chart(interactive_chart)
     
     
