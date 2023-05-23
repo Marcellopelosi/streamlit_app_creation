@@ -12,6 +12,18 @@ import base64
 import plotly.express as px
 
 
+def key_function(column):
+    transformed_column = []
+
+    for item in column:
+    if item[0].isnumeric():
+      transformed_column.append(float(item))
+    else:
+      transformed_column.append(np.nan)
+
+    return pd.Series(transformed_column)
+
+
 def colors(val, soglia):
     if val != "serie storica fornita non sufficientemente lunga" and float(val) < soglia:
         return "color: red"
@@ -78,7 +90,7 @@ def fare_previsioni(dataset, columns_test):
     for s in serie_troppo_corte:
         results.loc[len(results)] = [s, "serie storica fornita non sufficientemente lunga"]
 
-    results = results.sort_values(by = "unit_ID").reset_index(drop = True)
+    results = results.sort_values(by = "previsioni", key = key_function).reset_index(drop = True)
     
     results.index = results["unit_ID"]
     
