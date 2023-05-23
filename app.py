@@ -37,9 +37,9 @@ if file is not None:
     
     
     # Visualizza altri grafici
-    if st.button("Visualizza altri grafici"):
+    if st.button("Visualizza altro"):
         bar_plot = bar_plot_creator(dataset)
-        st.pyplot(bar_plot)
+        st.plotly_chart(bar_plot)
         
      
 # Esegui previsioni sul dataset caricato
