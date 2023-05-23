@@ -29,7 +29,6 @@ if file is not None:
     st.subheader("Ispeziona il dataset")
     
     selected_unit_id = st.selectbox("Select {}".format(first_feature_to_select), dataset[columns_test.index(first_feature_to_select)].unique())
-    st.subheader(f"Filtered DataFrame (Unit ID {selected_unit_id})")
     selected_column = st.selectbox("Select feature", possible_second_feature_list)
     interactive_chart = interactive_chart_creator(dataset, selected_unit_id, selected_column, columns_test)
     
