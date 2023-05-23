@@ -110,8 +110,8 @@ def bar_plot_creator(dataset):
         xaxis=dict(title='Numero di cicli'),
         yaxis=dict(title='Id unità'),
         font=dict(size=18),
-        height=2500,
-        width=600
+        height=800,
+        width=1000
     )
 
     return fig
