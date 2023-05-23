@@ -10,7 +10,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import base64
 import plotly.express as px
-
+import plotly.graph_objects as go
 
 def colors(val, soglia):
     if val != "serie storica fornita non sufficientemente lunga" and float(val) < soglia:
@@ -94,16 +94,29 @@ def scarica_csv(dataframe):
     return href
   
 def bar_plot_creator(dataset):
-    cnt_train = dataset[[0,1]].groupby(0).max().sort_values(by=1, ascending=False)
+
+    cnt_train = dataset[[0, 1]].groupby(0).max().sort_values(by=1, ascending=False)
     cnt_ind = [str(i) for i in cnt_train.index.to_list()]
     cnt_val = list(cnt_train[1].values)
 
-    plt.figure(figsize=(12, 30))
-    sns.barplot(x=list(cnt_val), y=list(cnt_ind), palette='Spectral') #controllare casting
-    plt.xlabel('Numbero di cicli')
-    plt.ylabel('Id unità')
-    plt.title('Numero di cicli per unità', fontweight='bold', fontsize=24, pad=15)
-    return plt
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=cnt_val,
+        y=cnt_ind,
+        orientation='h',
+        marker=dict(color='Spectral')
+    ))
+
+    fig.update_layout(
+        title='Numero di cicli per unità',
+        xaxis=dict(title='Numbero di cicli'),
+        yaxis=dict(title='Id unità'),
+        font=dict(size=18),
+        height=800,
+        width=600
+    )
+
+    return fig
 
 
 def elaboratore_previsioni(previsioni, soglia = 20):
