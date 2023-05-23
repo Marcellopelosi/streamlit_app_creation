@@ -74,7 +74,7 @@ def fare_previsioni(dataset, columns_test):
     #creazione dataframe per risultati
     results = pd.DataFrame({"unit_ID": unit_id_predicted, "previsioni": y_pred_test.flatten()})
 
-    results = results.sort_values(by = "unit_ID")
+    results = results.sort_values(by = "previsioni")
     
     #aggiunta dati non calcolati
     for s in serie_troppo_corte:
