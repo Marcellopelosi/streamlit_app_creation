@@ -101,8 +101,8 @@ def bar_plot_creator(dataset):
 
     fig = go.Figure()
     fig.add_trace(go.Bar(
-        x=cnt_val,
-        y=cnt_ind
+        y=cnt_val,
+        x=cnt_ind
     ))
 
     fig.update_layout(
