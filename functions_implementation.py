@@ -103,8 +103,7 @@ def bar_plot_creator(dataset):
     fig.add_trace(go.Bar(
         x=cnt_val,
         y=cnt_ind,
-        orientation='h',
-        marker=dict(color='Spectral')
+        orientation='h'
     ))
 
     fig.update_layout(
@@ -112,7 +111,7 @@ def bar_plot_creator(dataset):
         xaxis=dict(title='Numbero di cicli'),
         yaxis=dict(title='Id unità'),
         font=dict(size=18),
-        height=800,
+        height=2500,
         width=600
     )
 
