@@ -107,8 +107,8 @@ def bar_plot_creator(dataset):
 
     fig.update_layout(
         title='Numero di cicli per unità',
-        xaxis=dict(title='Numero di cicli'),
-        yaxis=dict(title='Id unità'),
+        yaxis=dict(title='Numero di cicli'),
+        xaxis=dict(title='Id unità'),
         font=dict(size=18),
         height=800,
         width=1000
