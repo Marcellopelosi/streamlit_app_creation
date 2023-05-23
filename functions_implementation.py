@@ -102,13 +102,12 @@ def bar_plot_creator(dataset):
     fig = go.Figure()
     fig.add_trace(go.Bar(
         x=cnt_val,
-        y=cnt_ind,
-        orientation='h'
+        y=cnt_ind
     ))
 
     fig.update_layout(
         title='Numero di cicli per unità',
-        xaxis=dict(title='Numbero di cicli'),
+        xaxis=dict(title='Numero di cicli'),
         yaxis=dict(title='Id unità'),
         font=dict(size=18),
         height=2500,
