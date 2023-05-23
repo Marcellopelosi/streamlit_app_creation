@@ -16,10 +16,10 @@ def key_function(column):
     transformed_column = []
 
     for item in column:
-    if item[0].isnumeric():
-      transformed_column.append(float(item))
-    else:
-      transformed_column.append(np.nan)
+        if item[0].isnumeric():
+          transformed_column.append(float(item))
+        else:
+          transformed_column.append(np.nan)
 
     return pd.Series(transformed_column)
 
