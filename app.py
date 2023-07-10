@@ -9,11 +9,7 @@ columns_test = ['unit_ID','time_in_cycles','setting_1', 'setting_2','setting_3',
 first_feature_to_select = "unit_ID"
 possible_second_feature_list = [x for x in columns_test if x not in ["unit_ID", "time_in_cycles"]]
 
-
-if 'soglia' not in st.session_state:
-    st.session_state['soglia'] = 25
-    
-soglia = st.session_state["soglia"]
+soglia = 25
 
 
 #Implementazione di Streamlit
@@ -45,18 +41,14 @@ if file is not None:
         bar_plot = bar_plot_creator(dataset)
         st.plotly_chart(bar_plot)
 
-    if st.button("Personalizza soglia di allerta (valore attuale: {})".format(st.session_state["soglia"])):
-        st.session_state["input_soglia"] = st.text_input("Inserisci un soglia di allerta")
-
      
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
-        st.session_state["soglia"] = st.session_state["input_soglia"]
         previsioni = fare_previsioni(dataset, columns_test)
             
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-        st.dataframe(elaboratore_previsioni(previsioni, st.session_state["soglia"]), width = 500)
+        st.dataframe(elaboratore_previsioni(previsioni, soglia), width = 500)
         
         # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
