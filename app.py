@@ -39,12 +39,14 @@ if file is not None:
     if st.button("Visualizza altro"):
         bar_plot = bar_plot_creator(dataset)
         st.plotly_chart(bar_plot)
-        
+
+    if st.button("Personalizza soglia di allerta (default: 25)"):
+        soglia = st.text_input("Inserisci un soglia di allerta")
      
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset, columns_test)
-        soglia = st.text_input("Inserisci un soglia di allerta")
+
         if type(soglia) != float and type(soglia) != int:
             soglia = 25
             
