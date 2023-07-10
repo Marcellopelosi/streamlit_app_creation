@@ -47,11 +47,11 @@ if file is not None:
 
     if st.button("Personalizza soglia di allerta (valore attuale: {})".format(st.session_state["soglia"])):
         input_soglia = st.text_input("Inserisci un soglia di allerta")
-        st.session_state["soglia"] = input_soglia
 
      
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
+        st.session_state["soglia"] = input_soglia
         previsioni = fare_previsioni(dataset, columns_test)
             
         # Mostra le previsioni
