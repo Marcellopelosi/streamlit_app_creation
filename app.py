@@ -45,8 +45,8 @@ if file is not None:
     if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset, columns_test)
         soglia = st.text_input("Inserisci un soglia di allerta")
-        while type(soglia) != float and type(soglia) != int:
-            st.write("Soglia non valida!")
+        if type(soglia) != float and type(soglia) != int:
+            soglia = 25
             
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
