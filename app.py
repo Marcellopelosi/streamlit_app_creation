@@ -13,7 +13,7 @@ possible_second_feature_list = [x for x in columns_test if x not in ["unit_ID", 
 if 'soglia' not in st.session_state:
     st.session_state['soglia'] = 25
     
-soglia = st.state_session["soglia"]
+soglia = st.session_state["soglia"]
 
 
 #Implementazione di Streamlit
@@ -45,8 +45,8 @@ if file is not None:
         bar_plot = bar_plot_creator(dataset)
         st.plotly_chart(bar_plot)
 
-    if st.button("Personalizza soglia di allerta (valore attuale: {})".format(st.state_session["soglia"])):
-        st.state_session["soglia"] = st.text_input("Inserisci un soglia di allerta")
+    if st.button("Personalizza soglia di allerta (valore attuale: {})".format(st.session_state["soglia"])):
+        st.session_state["soglia"] = st.text_input("Inserisci un soglia di allerta")
 
      
 # Esegui previsioni sul dataset caricato
@@ -55,7 +55,7 @@ if file is not None:
             
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-        st.dataframe(elaboratore_previsioni(previsioni, st.state_session["soglia"]), width = 500)
+        st.dataframe(elaboratore_previsioni(previsioni, st.session_state["soglia"]), width = 500)
         
         # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
