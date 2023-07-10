@@ -46,7 +46,8 @@ if file is not None:
         st.plotly_chart(bar_plot)
 
     if st.button("Personalizza soglia di allerta (valore attuale: {})".format(st.session_state["soglia"])):
-        st.session_state["soglia"] = st.text_input("Inserisci un soglia di allerta")
+        input_soglia = st.text_input("Inserisci un soglia di allerta")
+        st.session_state["soglia"] = input_soglia
 
      
 # Esegui previsioni sul dataset caricato
@@ -55,7 +56,7 @@ if file is not None:
             
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
-        st.dataframe(elaboratore_previsioni(previsioni, float(st.session_state["soglia"])), width = 500)
+        st.dataframe(elaboratore_previsioni(previsioni, st.session_state["soglia"]), width = 500)
         
         # Bottone per scaricare il dataset delle previsioni
         st.markdown(scarica_csv(previsioni), unsafe_allow_html=True)
