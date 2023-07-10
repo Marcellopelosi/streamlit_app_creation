@@ -44,7 +44,10 @@ if file is not None:
 # Esegui previsioni sul dataset caricato
     if st.button("Fai previsioni"):
         previsioni = fare_previsioni(dataset, columns_test)
-        
+        soglia = st.text_input("Inserisci un soglia di allerta")
+        while type(soglia) != float and type(soglia) != int:
+            st.write("Soglia non valida!")
+            
         # Mostra le previsioni
         st.subheader("Previsioni (soglia di allerta fissata a {})".format(soglia))
         st.dataframe(elaboratore_previsioni(previsioni, soglia), width = 500)
